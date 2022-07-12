@@ -10,11 +10,15 @@ from sklearn import preprocessing
 from sklearn.utils import shuffle
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
-
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.init as init
+import matplotlib.pyplot as plt
 df = pd.read_csv('result_data.csv', index_col = 0)
 # get the dataset
 def get_dataset():
-	X = df[["LAeq", "LA5-95","Loudness", "Green", "Water", "Sky", "Grey", ]]
+	X = df[["LAeq", "LA5-95","Loudness", "Green", "Sky", "Grey", ]]
 	y = df[["Fascination","Being_away_from","Negative", "Valence", "Arousal"]]
 	#y = df[["Fascination"]]
     
@@ -65,7 +69,23 @@ def evaluate_model(X, y):
 	return results
  # load dataset
 X, y = get_dataset()
-
+n_inputs, n_outputs = X.shape[1], y.shape[1]
+model = nn.Sequential(
+    nn.Linear(1,5),
+    nn.LeakyReLU(0.2),
+    nn.Linear(5,10),
+    nn.LeakyReLU(0.2),
+    nn.Linear(10,10),
+    nn.LeakyReLU(0.2),    
+    nn.Linear(10,10),
+    nn.LeakyReLU(0.2),        
+    nn.Linear(10,5),
+    nn.LeakyReLU(0.2),          
+    nn.Linear(5,1),
+)
+model.fit(X, y, verbose=0, epochs=100)
+print(model.evaluate(X, y, verbose=0))
+model.save("model2.h5")
 # poly = PolynomialFeatures(degree=2, include_bias=True)
 # X_train_poly = poly.fit_transform(X.reshape(-1, 1))
 # lin_reg = LinearRegression()
@@ -73,7 +93,7 @@ X, y = get_dataset()
 # y_pred = lin_reg.predict(X_train_poly)
 # print(lin_reg.score(X, y))
 # evaluate model
-results = evaluate_model(X, y)
+#results = evaluate_model(X, y)
 # summarize performance
-print('mae: %.3f (%.3f)' % (mean(results), std(results)))
+#print('mae: %.3f (%.3f)' % (mean(results), std(results)))
 
