@@ -41,6 +41,6 @@ X = get_dataset()
 model = MultOutRegressor(6, 5)
 model.load_state_dict(torch.load('./model_state_dict.pt'))
 res = model(X[0])
-sum_res = res[0]+res[1]+res[2]+res[3]+res[4]+1.568
+sum_res = 0.61*res[0]+0.95*res[1]+0.55*res[2]+0.64*res[3]+0.56*res[4]+1.868
 m = nn.Sigmoid()
 print(m(sum_res).item())
