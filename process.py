@@ -41,8 +41,7 @@ class MultOutRegressor(nn.Module):
         x = self.fc3(x)
         return x
 
-model = MultOutRegressor(6, 5)
-model.load_state_dict(torch.load('./model_state_dict.pt'))
+
 
 def proc(video):
     URL = 'http://api-server-1507785389.ap-northeast-2.elb.amazonaws.com:4040/process'
@@ -103,6 +102,8 @@ def revisitation(data):
 #     return percent
 
 def predict(data):
+    model = MultOutRegressor(6, 5)
+    model.load_state_dict(torch.load('./model_state_dict.pt'))
     feature = ["LAeq", "LA5-95","Loudness", "Green", "Sky", "Grey", ]
     input = []
     for f in feature:
