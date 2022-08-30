@@ -108,7 +108,7 @@ def predict(data):
     input = []
     for f in feature:
         input.append(data[f])
-    res = model(torch.FloatTensor(input))
+    res = model(torch.Tensor(input))
     sum_res = 0.61*res[0]+0.95*res[1]+0.55*res[2]+0.64*res[3]+0.56*res[4]+1.868
     m = nn.Sigmoid()
     return m(sum_res).item()
