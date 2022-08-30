@@ -103,13 +103,13 @@ def revisitation(data):
 
 def predict(data):
     model = MultOutRegressor(6, 5)
-    model.load_state_dict(torch.load('./model_state_dict.pt'))
-    feature = ["LAeq", "LA5-95","Loudness", "Green", "Sky", "Grey", ]
+    model.load_state_dict(torch.load('./model_state_dict.pt')) # 맞는 경로로 바꿔주세요.
+    feature = ["LAeq", "LA5-95","Loudness", "Green", "Sky", "Grey"]
     input = []
     for f in feature:
         input.append(data[f])
     res = model(torch.FloatTensor(input))
-    sum_res = sum_res = 0.61*res[0]+0.95*res[1]+0.55*res[2]+0.64*res[3]+0.56*res[4]+1.868
+    sum_res = 0.61*res[0]+0.95*res[1]+0.55*res[2]+0.64*res[3]+0.56*res[4]+1.868
     m = nn.Sigmoid()
     return m(sum_res).item()
 
